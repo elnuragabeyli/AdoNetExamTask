@@ -1,0 +1,460 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="AdoNetExamModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="action">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="40" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Group">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="teacher_id" Type="int" />
+          <Property Name="lesson_id" Type="int" />
+        </EntityType>
+        <EntityType Name="Lesson">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="40" Nullable="false" />
+          <Property Name="price" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="role">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="student_id" Type="int" />
+          <Property Name="teacher_id" Type="int" />
+        </EntityType>
+        <EntityType Name="role_action">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="role_id" Type="int" />
+          <Property Name="action_id" Type="int" />
+        </EntityType>
+        <EntityType Name="Student">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="surname" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="contact" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="username" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="password" Type="varchar" MaxLength="40" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Teacher">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="surname" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="contact" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="username" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="password" Type="varchar" MaxLength="40" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__role__student_id__398D8EEE">
+          <End Role="Student" Type="Self.Student" Multiplicity="0..1" />
+          <End Role="role" Type="Self.role" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Student">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="role">
+              <PropertyRef Name="student_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__role__teacher_id__3A81B327">
+          <End Role="Teacher" Type="Self.Teacher" Multiplicity="0..1" />
+          <End Role="role" Type="Self.role" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Teacher">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="role">
+              <PropertyRef Name="teacher_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__role_acti__actio__403A8C7D">
+          <End Role="action" Type="Self.action" Multiplicity="0..1" />
+          <End Role="role_action" Type="Self.role_action" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="action">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="role_action">
+              <PropertyRef Name="action_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__role_acti__role___3F466844">
+          <End Role="role" Type="Self.role" Multiplicity="0..1" />
+          <End Role="role_action" Type="Self.role_action" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="role">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="role_action">
+              <PropertyRef Name="role_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_group_lesson_id">
+          <End Role="Lesson" Type="Self.Lesson" Multiplicity="0..1" />
+          <End Role="Group" Type="Self.Group" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Lesson">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Group">
+              <PropertyRef Name="lesson_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_group_teacher_id">
+          <End Role="Teacher" Type="Self.Teacher" Multiplicity="0..1" />
+          <End Role="Group" Type="Self.Group" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Teacher">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Group">
+              <PropertyRef Name="teacher_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="AdoNetExamModelStoreContainer">
+          <EntitySet Name="action" EntityType="Self.action" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Group" EntityType="Self.Group" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Lesson" EntityType="Self.Lesson" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="role" EntityType="Self.role" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="role_action" EntityType="Self.role_action" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Student" EntityType="Self.Student" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Teacher" EntityType="Self.Teacher" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__role__student_id__398D8EEE" Association="Self.FK__role__student_id__398D8EEE">
+            <End Role="Student" EntitySet="Student" />
+            <End Role="role" EntitySet="role" />
+          </AssociationSet>
+          <AssociationSet Name="FK__role__teacher_id__3A81B327" Association="Self.FK__role__teacher_id__3A81B327">
+            <End Role="Teacher" EntitySet="Teacher" />
+            <End Role="role" EntitySet="role" />
+          </AssociationSet>
+          <AssociationSet Name="FK__role_acti__actio__403A8C7D" Association="Self.FK__role_acti__actio__403A8C7D">
+            <End Role="action" EntitySet="action" />
+            <End Role="role_action" EntitySet="role_action" />
+          </AssociationSet>
+          <AssociationSet Name="FK__role_acti__role___3F466844" Association="Self.FK__role_acti__role___3F466844">
+            <End Role="role" EntitySet="role" />
+            <End Role="role_action" EntitySet="role_action" />
+          </AssociationSet>
+          <AssociationSet Name="fk_group_lesson_id" Association="Self.fk_group_lesson_id">
+            <End Role="Lesson" EntitySet="Lesson" />
+            <End Role="Group" EntitySet="Group" />
+          </AssociationSet>
+          <AssociationSet Name="fk_group_teacher_id" Association="Self.fk_group_teacher_id">
+            <End Role="Teacher" EntitySet="Teacher" />
+            <End Role="Group" EntitySet="Group" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="AdoNetExamModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="action">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="role_action" Relationship="Self.FK__role_acti__actio__403A8C7D" FromRole="action" ToRole="role_action" />
+        </EntityType>
+        <EntityType Name="Group">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="teacher_id" Type="Int32" />
+          <Property Name="lesson_id" Type="Int32" />
+          <NavigationProperty Name="Lesson" Relationship="Self.fk_group_lesson_id" FromRole="Group" ToRole="Lesson" />
+          <NavigationProperty Name="Teacher" Relationship="Self.fk_group_teacher_id" FromRole="Group" ToRole="Teacher" />
+        </EntityType>
+        <EntityType Name="Lesson">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="40" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="price" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Group" Relationship="Self.fk_group_lesson_id" FromRole="Lesson" ToRole="Group" />
+        </EntityType>
+        <EntityType Name="role">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="student_id" Type="Int32" />
+          <Property Name="teacher_id" Type="Int32" />
+          <NavigationProperty Name="Student" Relationship="Self.FK__role__student_id__398D8EEE" FromRole="role" ToRole="Student" />
+          <NavigationProperty Name="Teacher" Relationship="Self.FK__role__teacher_id__3A81B327" FromRole="role" ToRole="Teacher" />
+          <NavigationProperty Name="role_action" Relationship="Self.FK__role_acti__role___3F466844" FromRole="role" ToRole="role_action" />
+        </EntityType>
+        <EntityType Name="role_action">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="role_id" Type="Int32" />
+          <Property Name="action_id" Type="Int32" />
+          <NavigationProperty Name="action" Relationship="Self.FK__role_acti__actio__403A8C7D" FromRole="role_action" ToRole="action" />
+          <NavigationProperty Name="role" Relationship="Self.FK__role_acti__role___3F466844" FromRole="role_action" ToRole="role" />
+        </EntityType>
+        <EntityType Name="Student">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="surname" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="contact" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="username" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="password" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="role" Relationship="Self.FK__role__student_id__398D8EEE" FromRole="Student" ToRole="role" />
+        </EntityType>
+        <EntityType Name="Teacher">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="surname" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="contact" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="username" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="password" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Group" Relationship="Self.fk_group_teacher_id" FromRole="Teacher" ToRole="Group" />
+          <NavigationProperty Name="role" Relationship="Self.FK__role__teacher_id__3A81B327" FromRole="Teacher" ToRole="role" />
+        </EntityType>
+        <Association Name="FK__role_acti__actio__403A8C7D">
+          <End Role="action" Type="Self.action" Multiplicity="0..1" />
+          <End Role="role_action" Type="Self.role_action" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="action">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="role_action">
+              <PropertyRef Name="action_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_group_lesson_id">
+          <End Role="Lesson" Type="Self.Lesson" Multiplicity="0..1" />
+          <End Role="Group" Type="Self.Group" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Lesson">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Group">
+              <PropertyRef Name="lesson_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_group_teacher_id">
+          <End Role="Teacher" Type="Self.Teacher" Multiplicity="0..1" />
+          <End Role="Group" Type="Self.Group" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Teacher">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Group">
+              <PropertyRef Name="teacher_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__role__student_id__398D8EEE">
+          <End Role="Student" Type="Self.Student" Multiplicity="0..1" />
+          <End Role="role" Type="Self.role" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Student">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="role">
+              <PropertyRef Name="student_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__role__teacher_id__3A81B327">
+          <End Role="Teacher" Type="Self.Teacher" Multiplicity="0..1" />
+          <End Role="role" Type="Self.role" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Teacher">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="role">
+              <PropertyRef Name="teacher_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__role_acti__role___3F466844">
+          <End Role="role" Type="Self.role" Multiplicity="0..1" />
+          <End Role="role_action" Type="Self.role_action" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="role">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="role_action">
+              <PropertyRef Name="role_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="AdoNetExamEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="action" EntityType="Self.action" />
+          <EntitySet Name="Group" EntityType="Self.Group" />
+          <EntitySet Name="Lesson" EntityType="Self.Lesson" />
+          <EntitySet Name="role" EntityType="Self.role" />
+          <EntitySet Name="role_action" EntityType="Self.role_action" />
+          <EntitySet Name="Student" EntityType="Self.Student" />
+          <EntitySet Name="Teacher" EntityType="Self.Teacher" />
+          <AssociationSet Name="FK__role_acti__actio__403A8C7D" Association="Self.FK__role_acti__actio__403A8C7D">
+            <End Role="action" EntitySet="action" />
+            <End Role="role_action" EntitySet="role_action" />
+          </AssociationSet>
+          <AssociationSet Name="fk_group_lesson_id" Association="Self.fk_group_lesson_id">
+            <End Role="Lesson" EntitySet="Lesson" />
+            <End Role="Group" EntitySet="Group" />
+          </AssociationSet>
+          <AssociationSet Name="fk_group_teacher_id" Association="Self.fk_group_teacher_id">
+            <End Role="Teacher" EntitySet="Teacher" />
+            <End Role="Group" EntitySet="Group" />
+          </AssociationSet>
+          <AssociationSet Name="FK__role__student_id__398D8EEE" Association="Self.FK__role__student_id__398D8EEE">
+            <End Role="Student" EntitySet="Student" />
+            <End Role="role" EntitySet="role" />
+          </AssociationSet>
+          <AssociationSet Name="FK__role__teacher_id__3A81B327" Association="Self.FK__role__teacher_id__3A81B327">
+            <End Role="Teacher" EntitySet="Teacher" />
+            <End Role="role" EntitySet="role" />
+          </AssociationSet>
+          <AssociationSet Name="FK__role_acti__role___3F466844" Association="Self.FK__role_acti__role___3F466844">
+            <End Role="role" EntitySet="role" />
+            <End Role="role_action" EntitySet="role_action" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="AdoNetExamModelStoreContainer" CdmEntityContainer="AdoNetExamEntities1">
+          <EntitySetMapping Name="action">
+            <EntityTypeMapping TypeName="AdoNetExamModel.action">
+              <MappingFragment StoreEntitySet="action">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Group">
+            <EntityTypeMapping TypeName="AdoNetExamModel.Group">
+              <MappingFragment StoreEntitySet="Group">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="teacher_id" ColumnName="teacher_id" />
+                <ScalarProperty Name="lesson_id" ColumnName="lesson_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Lesson">
+            <EntityTypeMapping TypeName="AdoNetExamModel.Lesson">
+              <MappingFragment StoreEntitySet="Lesson">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="price" ColumnName="price" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="role">
+            <EntityTypeMapping TypeName="AdoNetExamModel.role">
+              <MappingFragment StoreEntitySet="role">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="student_id" ColumnName="student_id" />
+                <ScalarProperty Name="teacher_id" ColumnName="teacher_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="role_action">
+            <EntityTypeMapping TypeName="AdoNetExamModel.role_action">
+              <MappingFragment StoreEntitySet="role_action">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="role_id" ColumnName="role_id" />
+                <ScalarProperty Name="action_id" ColumnName="action_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Student">
+            <EntityTypeMapping TypeName="AdoNetExamModel.Student">
+              <MappingFragment StoreEntitySet="Student">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="surname" ColumnName="surname" />
+                <ScalarProperty Name="contact" ColumnName="contact" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="password" ColumnName="password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Teacher">
+            <EntityTypeMapping TypeName="AdoNetExamModel.Teacher">
+              <MappingFragment StoreEntitySet="Teacher">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="surname" ColumnName="surname" />
+                <ScalarProperty Name="contact" ColumnName="contact" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="password" ColumnName="password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
